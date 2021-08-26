@@ -1,11 +1,11 @@
-# postcss-px-to-remvw
+# postcss-pixel-to-remvw
 
 a postcss plugin for converting px to rem and vw
 
 # Install
 
 ```
-npm install postcss postcss-px-to-remvw -D
+npm install postcss postcss-pixel-to-remvw -D
 ```
 
 # Usage

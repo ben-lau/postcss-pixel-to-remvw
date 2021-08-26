@@ -1,5 +1,5 @@
 {
-  "name": "postcss-px-to-remvw",
+  "name": "postcss-pixel-to-remvw",
   "version": "1.0.0",
   "description": "a postcss plugin for converting px to rem and vw",
   "main": "index.js",
@@ -9,11 +9,11 @@
     "to-self": "work-start --from workflow.config.js to-self",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
-    "postinstall": "echo \"\u001b[36m\u001b[1m\nThanks for using postcss-px-to-remvw! \nIf you have any good suggestions or any questions, please let me know\u001b[0m\n\""
+    "postinstall": "echo \"\u001b[36m\u001b[1m\nThanks for using postcss-pixel-to-remvw! \nIf you have any good suggestions or any questions, please let me know\u001b[0m\n\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ben-lau/postcss-px-to-remvw.git"
+    "url": "git+https://github.com/ben-lau/postcss-pixel-to-remvw.git"
   },
   "keywords": [
     "css",
@@ -29,9 +29,9 @@
   "author": "Ben Lau",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ben-lau/postcss-px-to-remvw/issues"
+    "url": "https://github.com/ben-lau/postcss-pixel-to-remvw/issues"
   },
-  "homepage": "https://github.com/ben-lau/postcss-px-to-remvw#readme",
+  "homepage": "https://github.com/ben-lau/postcss-pixel-to-remvw#readme",
   "dependencies": {
     "postcss": "^8.3.6"
   },

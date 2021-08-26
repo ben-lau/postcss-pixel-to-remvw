@@ -28,5 +28,10 @@ new Workflow('to-self', {
       skip: isPatchVersion,
       use: Tasks.Shell.run({ cmd: 'git push --tags' }),
     },
+    {
+      name: '发布到npm',
+      skip: isPatchVersion,
+      use: Tasks.Shell.run({ cmd: 'npm publish' }),
+    },
   ],
 });

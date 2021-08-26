@@ -132,7 +132,7 @@ const converter = (options = {}) => {
   let vwReplace = null;
 
   return {
-    postcssPlugin: 'postcss-px-to-remvw',
+    postcssPlugin: 'postcss-pixel-to-remvw',
     Once(css) {
       const filePath = css.source.input.file;
 

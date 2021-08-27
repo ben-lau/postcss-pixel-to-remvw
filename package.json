@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/ben-lau/postcss-pixel-to-remvw#readme",
   "dependencies": {
-    "postcss": "6.0.0"
+    "postcss": "^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -42,7 +42,6 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-latest": "^6.24.1",
     "expect": "^27.0.6",
-    "husky": "^4.3.0",
     "mocha": "^9.1.0",
     "rollup": "^2.56.3",
     "rollup-plugin-babel": "^4.4.0",

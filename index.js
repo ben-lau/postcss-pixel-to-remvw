@@ -251,75 +251,73 @@ var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', fun
   var isExcludeFile = false;
   var remReplace = null;
   var vwReplace = null;
-  return function (root) {
-    root.walkRules(function (css) {
-      var filePath = css.source.input.file;
+  return function (css) {
+    var filePath = css.source.input.file;
 
-      if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || filePath.match(exclude) !== null)) {
+    if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || filePath.match(exclude) !== null)) {
+      isExcludeFile = true;
+    } else {
+      isExcludeFile = false;
+    }
+
+    var remRootValue = baseSize.rem;
+    var vwRootValue = baseSize.vw;
+
+    var _css$nodes = _slicedToArray(css.nodes, 1),
+        firstNode = _css$nodes[0];
+
+    remReplace = createPxReplacer(remRootValue, minPixelValue, unitPrecision, 'rem');
+    vwReplace = createPxReplacer(vwRootValue, minPixelValue, unitPrecision, 'vw');
+
+    if (firstNode && firstNode.type === 'comment') {
+      // whole file
+      if (firstNode.text.trim() === commentOfDisableAll) {
         isExcludeFile = true;
-      } else {
-        isExcludeFile = false;
+      } // not convert rem
+
+
+      if (isExcludeFile || firstNode.text.trim() === commentOfDisableRem) {
+        remReplace = null;
+      } // not convert vw
+
+
+      if (isExcludeFile || firstNode.text.trim() === commentOfDisableVW) {
+        vwReplace = null;
+      }
+    }
+
+    css.walkDecls(function (decl) {
+      var next = decl.next();
+
+      if (isExcludeFile || decl.value.indexOf('px') === -1 || !satisfyPropList(decl.prop) || inBlackList(selectorBlackList, decl.parent.selector) || next && next.type === 'comment' && next.text === keepRuleComment) {
+        return;
       }
 
-      var remRootValue = baseSize.rem;
-      var vwRootValue = baseSize.vw;
+      var value = decl.value;
 
-      var _css$nodes = _slicedToArray(css.nodes, 1),
-          firstNode = _css$nodes[0];
-
-      remReplace = createPxReplacer(remRootValue, minPixelValue, unitPrecision, 'rem');
-      vwReplace = createPxReplacer(vwRootValue, minPixelValue, unitPrecision, 'vw');
-
-      if (firstNode && firstNode.type === 'comment') {
-        // whole file
-        if (firstNode.text.trim() === commentOfDisableAll) {
-          isExcludeFile = true;
-        } // not convert rem
+      if (baseSize.vw && vwReplace) {
+        var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
 
 
-        if (isExcludeFile || firstNode.text.trim() === commentOfDisableRem) {
-          remReplace = null;
-        } // not convert vw
-
-
-        if (isExcludeFile || firstNode.text.trim() === commentOfDisableVW) {
-          vwReplace = null;
+        if (!declarationExists(decl.parent, decl.prop, _value)) {
+          if (remReplace) {
+            decl.cloneAfter({
+              value: _value
+            });
+          } else {
+            decl.value = _value;
+          }
         }
       }
 
-      css.walkDecls(function (decl) {
-        var next = decl.next();
+      if (baseSize.rem && remReplace) {
+        var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
 
-        if (isExcludeFile || decl.value.indexOf('px') === -1 || !satisfyPropList(decl.prop) || inBlackList(selectorBlackList, decl.parent.selector) || next && next.type === 'comment' && next.text === keepRuleComment) {
-          return;
+
+        if (!declarationExists(decl.parent, decl.prop, _value2)) {
+          decl.value = _value2;
         }
-
-        var value = decl.value;
-
-        if (baseSize.vw && vwReplace) {
-          var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
-
-
-          if (!declarationExists(decl.parent, decl.prop, _value)) {
-            if (remReplace) {
-              decl.cloneAfter({
-                value: _value
-              });
-            } else {
-              decl.value = _value;
-            }
-          }
-        }
-
-        if (baseSize.rem && remReplace) {
-          var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
-
-
-          if (!declarationExists(decl.parent, decl.prop, _value2)) {
-            decl.value = _value2;
-          }
-        }
-      });
+      }
     });
   };
 }); // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md

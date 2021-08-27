@@ -1,5 +1,11 @@
 'use strict';
 
+var postcss = require('postcss');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var postcss__default = /*#__PURE__*/_interopDefaultLegacy(postcss);
+
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
@@ -64,6 +70,7 @@ function _nonIterableRest() {
 /**
  * @type {Options}
  */
+
 var defaults = {
   baseSize: {
     rem: 75,
@@ -225,7 +232,7 @@ var declarationExists = function declarationExists(decls, prop, value) {
  */
 
 
-var converter = function converter() {
+var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', function () {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var _Object$assign = Object.assign({}, defaults, options),
@@ -315,9 +322,6 @@ var converter = function converter() {
       });
     });
   };
-}; // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
-
-
-converter.postcss = true;
+}); // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
 
 module.exports = converter;

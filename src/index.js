@@ -1,3 +1,5 @@
+import postcss from 'postcss';
+
 /**@typedef {{baseSize: {rem:number,vw:number},unitPrecision: number,selectorBlackList: string[],propList: string[],minPixelValue: number,exclude: string|RegExp|()=>boolean ,commentOfDisableAll:string,commentOfDisableRem:string,commentOfDisableVW:string}} Options */
 
 /**
@@ -112,7 +114,7 @@ const declarationExists = (decls, prop, value) =>
 /**
  * @param {Partial<Options>} options
  */
-const converter = (options = {}) => {
+const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
   const {
     exclude,
     unitPrecision,
@@ -304,9 +306,9 @@ const converter = (options = {}) => {
       }
     },
   };
-};
+});
 
 // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
-converter.postcss = true;
+// converter.postcss = true;
 
 export default converter;

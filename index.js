@@ -244,9 +244,8 @@ var converter = function converter() {
   var isExcludeFile = false;
   var remReplace = null;
   var vwReplace = null;
-  return {
-    postcssPlugin: 'postcss-px-to-remvw',
-    Once: function Once(css) {
+  return function (root) {
+    root.walkRules(function (css) {
       var filePath = css.source.input.file;
 
       if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || filePath.match(exclude) !== null)) {
@@ -280,40 +279,41 @@ var converter = function converter() {
           vwReplace = null;
         }
       }
-    },
-    Declaration: function Declaration(decl) {
-      var next = decl.next();
 
-      if (isExcludeFile || decl.value.indexOf('px') === -1 || !satisfyPropList(decl.prop) || inBlackList(selectorBlackList, decl.parent.selector) || next && next.type === 'comment' && next.text === keepRuleComment) {
-        return;
-      }
+      css.walkDecls(function (decl) {
+        var next = decl.next();
 
-      var value = decl.value;
+        if (isExcludeFile || decl.value.indexOf('px') === -1 || !satisfyPropList(decl.prop) || inBlackList(selectorBlackList, decl.parent.selector) || next && next.type === 'comment' && next.text === keepRuleComment) {
+          return;
+        }
 
-      if (baseSize.vw && vwReplace) {
-        var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
+        var value = decl.value;
+
+        if (baseSize.vw && vwReplace) {
+          var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
 
 
-        if (!declarationExists(decl.parent, decl.prop, _value)) {
-          if (remReplace) {
-            decl.cloneAfter({
-              value: _value
-            });
-          } else {
-            decl.value = _value;
+          if (!declarationExists(decl.parent, decl.prop, _value)) {
+            if (remReplace) {
+              decl.cloneAfter({
+                value: _value
+              });
+            } else {
+              decl.value = _value;
+            }
           }
         }
-      }
 
-      if (baseSize.rem && remReplace) {
-        var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
+        if (baseSize.rem && remReplace) {
+          var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
 
 
-        if (!declarationExists(decl.parent, decl.prop, _value2)) {
-          decl.value = _value2;
+          if (!declarationExists(decl.parent, decl.prop, _value2)) {
+            decl.value = _value2;
+          }
         }
-      }
-    }
+      });
+    });
   };
 }; // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
 

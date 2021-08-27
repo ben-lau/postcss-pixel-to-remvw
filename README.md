@@ -6,7 +6,13 @@ a postcss plugin for converting px to rem and vw, also you can choose only conve
 
 For postcss v7, you have to use [postcss-pixel-to-remvw v1](https://github.com/ben-lau/postcss-pixel-to-remvw/tree/older-postcss)
 
-# example
+# Install
+
+```
+npm install postcss-pixel-to-remvw -D
+```
+
+# Example
 
 ## normal
 
@@ -85,12 +91,6 @@ h1 {
   line-height: 1.2;
   letter-spacing: 0.01333rem;
 }
-```
-
-# Install
-
-```
-npm install postcss-pixel-to-remvw -D
 ```
 
 # Usage

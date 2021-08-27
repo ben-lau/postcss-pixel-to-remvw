@@ -7,6 +7,7 @@ const isPatchVersion = () => process.env.patch !== On;
 new Workflow('to-self', {
   description: '提交到远程',
   steps: [
+    { name: '测试', use: Tasks.Shell.run({ cmd: 'npm run test' }) },
     { name: '获取提交信息', use: Tasks.AskFor.commitMessage() },
     { name: '提交', use: Tasks.Git.commit(message => [{ message }]) },
     {

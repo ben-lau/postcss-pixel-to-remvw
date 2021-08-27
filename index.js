@@ -1,11 +1,5 @@
 'use strict';
 
-var postcss = require('postcss');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var postcss__default = /*#__PURE__*/_interopDefaultLegacy(postcss);
-
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
@@ -70,7 +64,6 @@ function _nonIterableRest() {
 /**
  * @type {Options}
  */
-
 var defaults = {
   baseSize: {
     rem: 75,
@@ -232,7 +225,7 @@ var declarationExists = function declarationExists(decls, prop, value) {
  */
 
 
-var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', function () {
+var converter = function converter() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var _Object$assign = Object.assign({}, defaults, options),
@@ -251,8 +244,9 @@ var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', fun
   var isExcludeFile = false;
   var remReplace = null;
   var vwReplace = null;
-  return function (root) {
-    root.walkRules(function (css) {
+  return {
+    postcssPlugin: 'postcss-px-to-remvw',
+    Once: function Once(css) {
       var filePath = css.source.input.file;
 
       if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || filePath.match(exclude) !== null)) {
@@ -286,42 +280,44 @@ var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', fun
           vwReplace = null;
         }
       }
+    },
+    Declaration: function Declaration(decl) {
+      var next = decl.next();
 
-      css.walkDecls(function (decl) {
-        var next = decl.next();
+      if (isExcludeFile || decl.value.indexOf('px') === -1 || !satisfyPropList(decl.prop) || inBlackList(selectorBlackList, decl.parent.selector) || next && next.type === 'comment' && next.text === keepRuleComment) {
+        return;
+      }
 
-        if (isExcludeFile || decl.value.indexOf('px') === -1 || !satisfyPropList(decl.prop) || inBlackList(selectorBlackList, decl.parent.selector) || next && next.type === 'comment' && next.text === keepRuleComment) {
-          return;
-        }
+      var value = decl.value;
 
-        var value = decl.value;
-
-        if (baseSize.vw && vwReplace) {
-          var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
+      if (baseSize.vw && vwReplace) {
+        var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
 
 
-          if (!declarationExists(decl.parent, decl.prop, _value)) {
-            if (remReplace) {
-              decl.cloneAfter({
-                value: _value
-              });
-            } else {
-              decl.value = _value;
-            }
+        if (!declarationExists(decl.parent, decl.prop, _value)) {
+          if (remReplace) {
+            decl.cloneAfter({
+              value: _value
+            });
+          } else {
+            decl.value = _value;
           }
         }
+      }
 
-        if (baseSize.rem && remReplace) {
-          var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
+      if (baseSize.rem && remReplace) {
+        var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
 
 
-          if (!declarationExists(decl.parent, decl.prop, _value2)) {
-            decl.value = _value2;
-          }
+        if (!declarationExists(decl.parent, decl.prop, _value2)) {
+          decl.value = _value2;
         }
-      });
-    });
+      }
+    }
   };
-}); // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
+}; // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
+
+
+converter.postcss = true;
 
 module.exports = converter;

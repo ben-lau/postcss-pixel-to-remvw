@@ -1,5 +1,3 @@
-import postcss from 'postcss';
-
 /**@typedef {{baseSize: {rem:number,vw:number},unitPrecision: number,selectorBlackList: string[],propList: string[],minPixelValue: number,exclude: string|RegExp|()=>boolean ,commentOfDisableAll:string,commentOfDisableRem:string,commentOfDisableVW:string}} Options */
 
 /**
@@ -114,7 +112,7 @@ const declarationExists = (decls, prop, value) =>
 /**
  * @param {Partial<Options>} options
  */
-const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
+const converter = (options = {}) => {
   const {
     exclude,
     unitPrecision,
@@ -133,95 +131,8 @@ const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
   let remReplace = null;
   let vwReplace = null;
 
-  return root => {
-    root.walkRules(css => {
-      const filePath = css.source.input.file;
-
-      if (
-        exclude &&
-        ((isFunction(exclude) && exclude(filePath)) ||
-          (isString(exclude) && filePath.indexOf(exclude) !== -1) ||
-          filePath.match(exclude) !== null)
-      ) {
-        isExcludeFile = true;
-      } else {
-        isExcludeFile = false;
-      }
-
-      const remRootValue = baseSize.rem;
-      const vwRootValue = baseSize.vw;
-      const [firstNode] = css.nodes;
-
-      remReplace = createPxReplacer(
-        remRootValue,
-        minPixelValue,
-        unitPrecision,
-        'rem'
-      );
-      vwReplace = createPxReplacer(
-        vwRootValue,
-        minPixelValue,
-        unitPrecision,
-        'vw'
-      );
-
-      if (firstNode && firstNode.type === 'comment') {
-        // whole file
-        if (firstNode.text.trim() === commentOfDisableAll) {
-          isExcludeFile = true;
-        }
-
-        // not convert rem
-        if (isExcludeFile || firstNode.text.trim() === commentOfDisableRem) {
-          remReplace = null;
-        }
-
-        // not convert vw
-        if (isExcludeFile || firstNode.text.trim() === commentOfDisableVW) {
-          vwReplace = null;
-        }
-      }
-
-      css.walkDecls(decl => {
-        const next = decl.next();
-        if (
-          isExcludeFile ||
-          decl.value.indexOf('px') === -1 ||
-          !satisfyPropList(decl.prop) ||
-          inBlackList(selectorBlackList, decl.parent.selector) ||
-          (next && next.type === 'comment' && next.text === keepRuleComment)
-        ) {
-          return;
-        }
-        const value = decl.value;
-
-        if (baseSize.vw && vwReplace) {
-          const _value = value.replace(REG_PX, vwReplace);
-
-          // if rem unit already exists, do not add or replace
-          if (!declarationExists(decl.parent, decl.prop, _value)) {
-            if (remReplace) {
-              decl.cloneAfter({ value: _value });
-            } else {
-              decl.value = _value;
-            }
-          }
-        }
-
-        if (baseSize.rem && remReplace) {
-          const _value = value.replace(REG_PX, remReplace);
-
-          // if rem unit already exists, do not add or replace
-          if (!declarationExists(decl.parent, decl.prop, _value)) {
-            decl.value = _value;
-          }
-        }
-      });
-    });
-  };
-
   return {
-    postcssPlugin: 'postcss-pixel-to-remvw',
+    postcssPlugin: 'postcss-px-to-remvw',
     Once(css) {
       const filePath = css.source.input.file;
 
@@ -306,9 +217,9 @@ const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
       }
     },
   };
-});
+};
 
 // https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md
-// converter.postcss = true;
+converter.postcss = true;
 
 export default converter;

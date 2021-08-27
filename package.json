@@ -1,6 +1,6 @@
 {
   "name": "postcss-pixel-to-remvw",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "a postcss plugin for converting px to rem and vw",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/ben-lau/postcss-pixel-to-remvw#readme",
   "dependencies": {
-    "postcss": "6.0.0"
+    "postcss": "^8.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

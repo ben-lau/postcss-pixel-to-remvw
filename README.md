@@ -183,6 +183,15 @@ default:
 # TODO
 
 - [x] compact with older version of postcss
-- [ ] unit test
-
+- [x] unit test
+  - [x] baseSize
+  - [ ] unitPrecision
+  - [ ] selectorBlackList
+  - [ ] propList
+  - [ ] minPixelValue
+  - [ ] exclude
+  - [x] keepRuleComment
+  - [x] commentOfDisableAll
+  - [x] commentOfDisableRem
+  - [x] commentOfDisableVW
 Thanks to [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem)

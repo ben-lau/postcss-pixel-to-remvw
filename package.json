@@ -1,6 +1,6 @@
 {
   "name": "postcss-pixel-to-remvw",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a postcss plugin for converting px to rem and vw",
   "main": "index.js",
   "scripts": {

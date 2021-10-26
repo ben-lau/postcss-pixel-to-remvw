@@ -185,14 +185,14 @@ default:
 - [x] compact with older version of postcss
 - [x] unit test
   - [x] baseSize
+  - [x] keepRuleComment
+  - [x] commentOfDisableAll
+  - [x] commentOfDisableRem
+  - [x] commentOfDisableVW
   - [ ] unitPrecision
   - [ ] selectorBlackList
   - [ ] propList
   - [ ] minPixelValue
   - [ ] exclude
-  - [x] keepRuleComment
-  - [x] commentOfDisableAll
-  - [x] commentOfDisableRem
-  - [x] commentOfDisableVW
 
 Thanks to [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem)

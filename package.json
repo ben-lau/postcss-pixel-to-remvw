@@ -4,7 +4,7 @@
   "description": "a postcss plugin for converting px to rem and vw",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "build": "rollup -c rollup.config.js -w",
     "test": "mocha",
     "to-self": "work-start --from workflow.config.js to-self",
     "version:patch": "npm version patch",

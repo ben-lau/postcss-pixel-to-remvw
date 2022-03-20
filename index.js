@@ -289,13 +289,15 @@ var converter = function converter() {
       }
 
       var value = decl.value;
+      var needConvertVw = baseSize.vw && vwReplace;
+      var needConvertRem = baseSize.rem && remReplace;
 
-      if (baseSize.vw && vwReplace) {
+      if (needConvertVw) {
         var _value = value.replace(REG_PX, vwReplace); // if rem unit already exists, do not add or replace
 
 
         if (!declarationExists(decl.parent, decl.prop, _value)) {
-          if (remReplace) {
+          if (needConvertRem) {
             decl.cloneAfter({
               value: _value
             });
@@ -305,7 +307,7 @@ var converter = function converter() {
         }
       }
 
-      if (baseSize.rem && remReplace) {
+      if (needConvertRem) {
         var _value2 = value.replace(REG_PX, remReplace); // if rem unit already exists, do not add or replace
 
 

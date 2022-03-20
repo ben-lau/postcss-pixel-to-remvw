@@ -238,4 +238,56 @@ describe('ignore some situations', () => {
 
     expect(processed).toBe(output);
   });
+
+  it('should not convert to rem while `rem` in baseSize is undefined', () => {
+    const input = `
+   h1 {
+      margin: 0 0 20px 20px;
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: 1px;
+   }`;
+    const output = `
+   h1 {
+      margin: 0 0 1.33333vw 1.33333vw;
+      font-size: 2.13333vw;
+      line-height: 1.2;
+      letter-spacing: 0.06667vw;
+   }`;
+    const processed = postcss(
+      pxtorem({
+        baseSize: {
+          vw: 15,
+        },
+      })
+    ).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
+  it('should not convert to vw while `vw` in baseSize is undefined', () => {
+    const input = `
+   h1 {
+      margin: 0 0 20px 20px;
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: 1px;
+   }`;
+    const output = `
+   h1 {
+      margin: 0 0 0.53333rem 0.53333rem;
+      font-size: 0.85333rem;
+      line-height: 1.2;
+      letter-spacing: 0.02667rem;
+   }`;
+    const processed = postcss(
+      pxtorem({
+        baseSize: {
+          rem: 37.5,
+        },
+      })
+    ).process(input).css;
+
+    expect(processed).toBe(output);
+  });
 });

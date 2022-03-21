@@ -1,3 +1,12 @@
+## [2.0.5](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.4...v2.0.5) (2022-03-21)
+
+
+### Bug Fixes
+
+* 修复文档遗漏部分,添加完整化版本生成和日志生成 ([10f4af5](https://github.com/ben-lau/postcss-pixel-to-remvw/commit/10f4af5e296e4775f4760241a5230e2cd1054b86))
+
+
+
 ## [2.0.4](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.3...v2.0.4) (2022-03-20)
 
 

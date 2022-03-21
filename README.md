@@ -98,17 +98,33 @@ h1 {
 ## In Webpack
 
 ```javascript
-const pxtoremvw = require('postcss-pixel-to-remvw');
 export default {
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader',
+        loader: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'postcss-pixel-to-remvw',
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
+            },
+          },
+        ],
       },
     ],
   },
-  postcss: [pxtoremvw(/*options*/)],
 };
 ```
 
@@ -154,8 +170,8 @@ default:
 ```
 
 - `baseSize` {Object} the base size config, default is { rem: 75, vw: 7.5 }
-  - `rem` {Number} the root element font size, means 1rem = [your setting] px
-  - `vw` {Number} the base ratio for viewport width, means 1vw = [your setting] px
+  - `rem` {Number | undefined} the root element font size, means 1rem = [your setting] px; It won't convert to rem while `rem` is undefined
+  - `vw` {Number | undefined} the base ratio for viewport width, means 1vw = [your setting] px; It won't convert to vw while `vw` is undefined
 - `unitPrecision` {Number} the digital accurarcy of converted stylesheet
 - `selectorBlackList` {string[]} The selectors list to ignore conversion
   - If value is string, it checks to see if selector contains the string.['body'] will match .body-class
@@ -194,4 +210,4 @@ default:
   - [x] commentOfDisableAll
   - [x] commentOfDisableRem
   - [x] commentOfDisableVW
-Thanks to [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem)
+        Thanks to [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem)

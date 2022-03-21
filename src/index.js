@@ -193,13 +193,15 @@ const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
         return;
       }
       const value = decl.value;
+      const needConvertVw = baseSize.vw && vwReplace;
+      const needConvertRem = baseSize.rem && remReplace;
 
-      if (baseSize.vw && vwReplace) {
+      if (needConvertVw) {
         const _value = value.replace(REG_PX, vwReplace);
 
         // if rem unit already exists, do not add or replace
         if (!declarationExists(decl.parent, decl.prop, _value)) {
-          if (remReplace) {
+          if (needConvertRem) {
             decl.cloneAfter({ value: _value });
           } else {
             decl.value = _value;
@@ -207,7 +209,7 @@ const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
         }
       }
 
-      if (baseSize.rem && remReplace) {
+      if (needConvertRem) {
         const _value = value.replace(REG_PX, remReplace);
 
         // if rem unit already exists, do not add or replace

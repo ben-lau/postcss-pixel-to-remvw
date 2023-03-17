@@ -95,6 +95,10 @@ var isString = function isString(target) {
   return typeof target === 'string';
 };
 
+var isRegExp = function isRegExp(target) {
+  return target instanceof RegExp;
+};
+
 var toFixed = function toFixed(number, precision) {
   var multiplier = Math.pow(10, precision + 1);
   var wholeNumber = Math.floor(number * multiplier);
@@ -249,7 +253,7 @@ var converter = function converter() {
     Once: function Once(css) {
       var filePath = css.source.input.file;
 
-      if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || filePath.match(exclude) !== null)) {
+      if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || isRegExp(exclude) && filePath.match(exclude) !== null)) {
         isExcludeFile = true;
       } else {
         isExcludeFile = false;

@@ -31,6 +31,8 @@ const isFunction = target => typeof target === 'function';
 
 const isString = target => typeof target === 'string';
 
+const isRegExp = target => target instanceof RegExp;
+
 const toFixed = (number, precision) => {
   const multiplier = 10 ** (precision + 1);
   const wholeNumber = Math.floor(number * multiplier);
@@ -140,7 +142,7 @@ const converter = postcss.plugin('postcss-pixel-to-remvw', (options = {}) => {
       exclude &&
       ((isFunction(exclude) && exclude(filePath)) ||
         (isString(exclude) && filePath.indexOf(exclude) !== -1) ||
-        filePath.match(exclude) !== null)
+        (isRegExp(exclude) && filePath.match(exclude) !== null))
     ) {
       isExcludeFile = true;
     } else {

@@ -102,6 +102,10 @@ var isString = function isString(target) {
   return typeof target === 'string';
 };
 
+var isRegExp = function isRegExp(target) {
+  return target instanceof RegExp;
+};
+
 var toFixed = function toFixed(number, precision) {
   var multiplier = Math.pow(10, precision + 1);
   var wholeNumber = Math.floor(number * multiplier);
@@ -232,7 +236,7 @@ var declarationExists = function declarationExists(decls, prop, value) {
  */
 
 
-var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', function () {
+var converter = postcss__default["default"].plugin('postcss-pixel-to-remvw', function () {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var _Object$assign = Object.assign({}, defaults, options),
@@ -254,7 +258,7 @@ var converter = postcss__default['default'].plugin('postcss-pixel-to-remvw', fun
   return function (css) {
     var filePath = css.source.input.file;
 
-    if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || filePath.match(exclude) !== null)) {
+    if (exclude && (isFunction(exclude) && exclude(filePath) || isString(exclude) && filePath.indexOf(exclude) !== -1 || isRegExp(exclude) && filePath.match(exclude) !== null)) {
       isExcludeFile = true;
     } else {
       isExcludeFile = false;

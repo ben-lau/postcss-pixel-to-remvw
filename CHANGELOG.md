@@ -1,3 +1,12 @@
+## [2.0.6](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.5...v2.0.6) (2023-03-17)
+
+
+### Bug Fixes
+
+* 修复exclude为函数时的边界问题 ([1af8534](https://github.com/ben-lau/postcss-pixel-to-remvw/commit/1af8534caad63585fcb6b5fa4da64ce01f943696))
+
+
+
 ## [2.0.5](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.4...v2.0.5) (2022-03-21)
 
 

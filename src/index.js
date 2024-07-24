@@ -151,7 +151,6 @@ const converter = (options = {}) => {
 
       const remRootValue = baseSize.rem;
       const vwRootValue = baseSize.vw;
-      const [firstNode] = css.nodes;
 
       remReplace = createPxReplacer(
         remRootValue,
@@ -166,21 +165,32 @@ const converter = (options = {}) => {
         'vw'
       );
 
-      if (firstNode && firstNode.type === 'comment') {
-        // whole file
-        if (firstNode.text.trim() === commentOfDisableAll) {
-          isExcludeFile = true;
-        }
+      // whole file
+      isExcludeFile = css.nodes.some(
+        item =>
+          item.type === 'comment' && item.text.trim() === commentOfDisableAll
+      );
 
-        // not convert rem
-        if (isExcludeFile || firstNode.text.trim() === commentOfDisableRem) {
-          remReplace = null;
-        }
+      // not convert rem
+      if (
+        isExcludeFile ||
+        css.nodes.some(
+          item =>
+            item.type === 'comment' && item.text.trim() === commentOfDisableRem
+        )
+      ) {
+        remReplace = null;
+      }
 
-        // not convert vw
-        if (isExcludeFile || firstNode.text.trim() === commentOfDisableVW) {
-          vwReplace = null;
-        }
+      // not convert vw
+      if (
+        isExcludeFile ||
+        css.nodes.some(
+          item =>
+            item.type === 'comment' && item.text.trim() === commentOfDisableVW
+        )
+      ) {
+        vwReplace = null;
       }
     },
     Declaration(decl) {

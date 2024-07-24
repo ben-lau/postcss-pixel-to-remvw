@@ -71,6 +71,56 @@ describe('ignore some situations', () => {
     expect(processed).toBe(output);
   });
 
+  it('should not convert to rem in whole file with disabled comment anywhere', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+
+    /*disable-convert-rem*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 4.26667vw;
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+
+    h2 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 4.26667vw;
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+
+    /*disable-convert-rem*/
+    h3 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 4.26667vw;
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }`;
+    const processed = postcss(pxtorem()).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
   it('should not convert to rem in whole file with new disabled comment at the top', () => {
     const input = `
     /*no-convert-rem*/
@@ -83,6 +133,54 @@ describe('ignore some situations', () => {
     const output = `
     /*no-convert-rem*/
     h1 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 4.26667vw;
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }`;
+    const processed = postcss(
+      pxtorem({ commentOfDisableRem: 'no-convert-rem' })
+    ).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
+  it('should not convert to rem in whole file with new disabled comment anywhere', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*no-convert-rem*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 4.26667vw;
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+    h2 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 4.26667vw;
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+    /*no-convert-rem*/
+    h3 {
        margin: 0 0 2.66667vw 2.66667vw;
        font-size: 4.26667vw;
        line-height: 1.2;
@@ -117,6 +215,52 @@ describe('ignore some situations', () => {
     expect(processed).toBe(output);
   });
 
+  it('should not convert to vw in whole file with disabled comment anywhere', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*disable-convert-vw*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 0.42667rem;
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    h2 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 0.42667rem;
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    /*disable-convert-vw*/
+    h3 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 0.42667rem;
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }`;
+    const processed = postcss(pxtorem()).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
   it('should not convert to vw in whole file with new disabled comment at the top', () => {
     const input = `
     /*no-convert-vw*/
@@ -141,6 +285,54 @@ describe('ignore some situations', () => {
     expect(processed).toBe(output);
   });
 
+  it('should not convert to vw in whole file with new disabled comment anywhere', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*no-convert-vw*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px;
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 0.42667rem;
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    h2 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 0.42667rem;
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    /*no-convert-vw*/
+    h3 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 0.42667rem;
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }`;
+    const processed = postcss(
+      pxtorem({ commentOfDisableVW: 'no-convert-vw' })
+    ).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
   it('should not convert to rem in whole file with disabled comment at the top and some property with disabled comment', () => {
     const input = `
     /*disable-convert-rem*/
@@ -153,6 +345,52 @@ describe('ignore some situations', () => {
     const output = `
     /*disable-convert-rem*/
     h1 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }`;
+    const processed = postcss(pxtorem()).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
+  it('should not convert to rem in whole file with disabled comment anywhere and some property with disabled comment', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*disable-convert-rem*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+    h2 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+    /*disable-convert-rem*/
+    h3 {
        margin: 0 0 2.66667vw 2.66667vw;
        font-size: 32px; /*no*/
        line-height: 1.2;
@@ -190,6 +428,57 @@ describe('ignore some situations', () => {
     expect(processed).toBe(output);
   });
 
+  it('should not convert to rem in whole file with new disabled comment anywhere and some property with new disabled comment', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*no-convert-rem*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+    h2 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }
+    /*no-convert-rem*/
+    h3 {
+       margin: 0 0 2.66667vw 2.66667vw;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 0.13333vw;
+    }`;
+    const processed = postcss(
+      pxtorem({
+        keepRuleComment: 'no-convert',
+        commentOfDisableRem: 'no-convert-rem',
+      })
+    ).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
   it('should not convert to vw in whole file with disabled comment at the top and some property with disabled comment', () => {
     const input = `
     /*disable-convert-vw*/
@@ -212,6 +501,52 @@ describe('ignore some situations', () => {
     expect(processed).toBe(output);
   });
 
+  it('should not convert to vw in whole file with disabled comment anywhere and some property with disabled comment', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*disable-convert-vw*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    h2 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    /*disable-convert-vw*/
+    h3 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 32px; /*no*/
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }`;
+    const processed = postcss(pxtorem()).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
   it('should not convert to vw in whole file with new disabled comment at the top and some property with new disabled comment', () => {
     const input = `
     /*no-convert-vw*/
@@ -224,6 +559,57 @@ describe('ignore some situations', () => {
     const output = `
     /*no-convert-vw*/
     h1 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }`;
+    const processed = postcss(
+      pxtorem({
+        keepRuleComment: 'no-convert',
+        commentOfDisableVW: 'no-convert-vw',
+      })
+    ).process(input).css;
+
+    expect(processed).toBe(output);
+  });
+
+  it('should not convert to vw in whole file with new disabled comment anywhere and some property with new disabled comment', () => {
+    const input = `
+    h1 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    h2 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }
+    /*no-convert-vw*/
+    h3 {
+       margin: 0 0 20px 20px;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 1px;
+    }`;
+    const output = `
+    h1 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    h2 {
+       margin: 0 0 0.26667rem 0.26667rem;
+       font-size: 32px; /*no-convert*/
+       line-height: 1.2;
+       letter-spacing: 0.01333rem;
+    }
+    /*no-convert-vw*/
+    h3 {
        margin: 0 0 0.26667rem 0.26667rem;
        font-size: 32px; /*no-convert*/
        line-height: 1.2;

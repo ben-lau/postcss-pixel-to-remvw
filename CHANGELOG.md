@@ -1,3 +1,12 @@
+## [2.0.7](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.6...v2.0.7) (2024-07-24)
+
+
+### Bug Fixes
+
+* 修改因css注入让第一个元素并非跳过转化标识导致的问题 ([6ee2ed1](https://github.com/ben-lau/postcss-pixel-to-remvw/commit/6ee2ed17fb7b195b289995df009218fab11eb3fa))
+
+
+
 ## [2.0.6](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.5...v2.0.6) (2023-03-17)
 
 

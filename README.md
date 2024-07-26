@@ -43,6 +43,36 @@ h1 {
 }
 ```
 
+# Disable convert marker
+
+**Now, the disabled convert marker does not have to be at the top of the file, you can place it outside any root-level node**
+
+## not convert all
+
+- Input
+
+```css
+/*disable-convert*/
+h1 {
+  margin: 0 0 20px 20px;
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+```
+
+- Output
+
+```css
+/*disable-convert*/
+h1 {
+  margin: 0 0 20px 20px;
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+```
+
 ## not convert to vw (compact with the pc)
 
 - Input

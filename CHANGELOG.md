@@ -1,3 +1,7 @@
+## [2.0.8](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.7...v2.0.8) (2024-07-26)
+
+
+
 ## [2.0.7](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.6...v2.0.7) (2024-07-24)
 
 

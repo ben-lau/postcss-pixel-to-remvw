@@ -31,7 +31,8 @@ new Workflow('to-self', {
     },
     {
       name: '发布到npm',
-      skip: isPatchVersion,
+      skip: async () =>
+        !(await Tasks.AskFor.shouldContinue({ message: '是否更新至npm？' })()),
       use: Tasks.Shell.run({ cmd: 'npm publish' }),
     },
   ],

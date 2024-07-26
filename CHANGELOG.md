@@ -1,3 +1,12 @@
+## [2.0.9](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.8...v2.0.9) (2024-07-26)
+
+
+### Bug Fixes
+
+* 修复exclude失效的bug ([7129d99](https://github.com/ben-lau/postcss-pixel-to-remvw/commit/7129d99a70a416e16c6be2aab5b2c379d2eec5aa))
+
+
+
 ## [2.0.8](https://github.com/ben-lau/postcss-pixel-to-remvw/compare/v2.0.7...v2.0.8) (2024-07-26)
 
 

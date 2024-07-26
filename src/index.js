@@ -165,8 +165,8 @@ const converter = (options = {}) => {
         'vw'
       );
 
-      // whole file
-      isExcludeFile = css.nodes.some(
+      // whole file, when exclude match this whole file, skip the comment marker
+      isExcludeFile ||= css.nodes.some(
         item =>
           item.type === 'comment' && item.text.trim() === commentOfDisableAll
       );

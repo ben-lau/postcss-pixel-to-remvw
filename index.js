@@ -203,11 +203,11 @@ var converter = function converter() {
       var remRootValue = baseSize.rem;
       var vwRootValue = baseSize.vw;
       remReplace = createPxReplacer(remRootValue, minPixelValue, unitPrecision, 'rem');
-      vwReplace = createPxReplacer(vwRootValue, minPixelValue, unitPrecision, 'vw'); // whole file
+      vwReplace = createPxReplacer(vwRootValue, minPixelValue, unitPrecision, 'vw'); // whole file, when exclude match this whole file, skip the comment marker
 
-      isExcludeFile = css.nodes.some(function (item) {
+      isExcludeFile || (isExcludeFile = css.nodes.some(function (item) {
         return item.type === 'comment' && item.text.trim() === commentOfDisableAll;
-      }); // not convert rem
+      })); // not convert rem
 
       if (isExcludeFile || css.nodes.some(function (item) {
         return item.type === 'comment' && item.text.trim() === commentOfDisableRem;
